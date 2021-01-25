@@ -1,0 +1,15 @@
+.textXl {
+  font-size: 48px;
+  font-weight: 500;
+  margin: 0;
+}
+.textLg {
+  font-size: 18px;
+  font-weight: 300;
+  margin: 0;
+  color: black;
+}
+.textSmall {
+  font-size: 1.25rem;
+  font-weight: bold;
+}

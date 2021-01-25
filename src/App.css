@@ -1,0 +1,54 @@
+body {
+  background-color: #022d41;
+  font-family: "Montserrat", Courier, monospace;
+}
+
+p {
+  font-weight: bold;
+}
+
+h4 {
+  /* font-size: 16px; */
+  font-weight: 450;
+}
+
+.footerSpanName {
+  font-weight: bold;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: #002333;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #00ff72;
+  border-radius: 20px;
+  border: 3px solid #022d41;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 25px;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 450;
+  }
+  p {
+    font-size: 13px;
+    margin: 3px;
+    font-weight: bold;
+  }
+
+  .footerName {
+    font-size: 10px;
+  }
+
+  .footerSpanName {
+    font-size: 13px;
+  }
+}
