@@ -33,6 +33,10 @@ const useStyles = makeStyles({
         fontSize: "15px",
         fontWeight: "600",
         color: "#A4A4B7"
+    },
+
+    link: {
+        textDecoration: "none"
     }
 })
 
@@ -47,16 +51,16 @@ function Footer() {
             <Grid container direction="row" justify="space-between" spacing={2}>
                 <Grid item xs={6} md={3}>
                     <p className={classes.footerH3} style={{ color: "white" }}>Important Links</p>
-                    <a><p className={classes.footerH3}>Popular Choices</p></a>
-                    <a><p className={classes.footerH3}>Suggest Course</p></a>
-                    <a><p className={classes.footerH3}>Contact Us</p></a>
+                    <a className={classes.link} href="/popularchoices"><p className={classes.footerH3}>Popular Choices</p></a>
+                    <a className={classes.link} href="/suggestcourse"><p className={classes.footerH3}>Suggest Course</p></a>
+                    <a className={classes.link} href="mailto:freecourseyard@freecourseyard.com"><p className={classes.footerH3}>Contact Us</p></a>
                 </Grid>
                 <Grid item xs={6} md={3}>
                     <p className={classes.footerH3} style={{ color: "white" }}>About Us</p>
-                    <a><p className={classes.footerH3}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </p></a>
+                    <p className={classes.footerH3}>
+                        FREECOURSEYARD is a web application which helps you to find
+                        best online FREE COURSES from all across the internet.
+                    </p>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <p className={classes.footerH3} style={{ color: "white", textAlign: "center" }}>Copyright @ 2020 FREECOURSEYARD</p>

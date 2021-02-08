@@ -84,7 +84,7 @@ function SuggestCourse(props) {
     const sendDataToServer = async () => {
         try {
             setBar(true);
-            let res = await Axios.post(`www.google.com`, valueObj);
+            let res = await Axios.post(`http://localhost:8000/addcourse`, valueObj);
 
         } catch (error) {
             console.log(error)
@@ -160,7 +160,7 @@ function SuggestCourse(props) {
                         (<div className={classes.textField}>
                             <TextField id="standard-basic" label="Image Url" defaultValue="" multiline
                                 error={(errorObj.edescription) ? true : false} helperText={(errorObj.edescription) ? "This field required" : ""}
-                                onChange={onChangeHandelar} name="description" />
+                                onChange={onChangeHandelar} name="imageUrl" />
                         </div>)}
 
                     <Button disableElevation className={classes.submitBtn} type="submit">Send</Button>

@@ -40,7 +40,6 @@ const useStyles = makeStyles({
         fontWeight: "bold",
         transition: "0.8s",
         position: "relative",
-        // bottom: "-55px",
         "&:hover": {
             backgroundColor: "#C4C4C4",
         }
@@ -56,7 +55,8 @@ function MuiCard(props) {
         <Card className={classes.card} variant="outlined">
             <CardActionArea style={{ backgroundColor: "white" }}>
                 <CardMedia
-                    image={data.imageUrl}
+                    // image={data.imageUrl}
+                    image={`https://picsum.photos/200`}
                     className={classes.media}
                 />
                 <CardContent>
@@ -64,7 +64,8 @@ function MuiCard(props) {
                         <div className={classes.teacherLogoDiv}>
                             <p style={{ marginTop: "6px" }}>T</p>
                         </div>
-                        <p className={Styles.textLg}>{data.instructor}</p>
+                        {/* <p className={Styles.textLg}>{data.instructor}</p> */}
+                        <p className={Styles.textLg}>{data.title}</p>
                     </div>
                     <p className={Styles.textSmall}>{data.title}</p>
                 </CardContent>

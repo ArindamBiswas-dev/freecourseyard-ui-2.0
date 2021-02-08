@@ -1,8 +1,10 @@
-import { Button, CircularProgress, Container, Grid, makeStyles } from '@material-ui/core'
+import { Button, Container, Grid, makeStyles } from '@material-ui/core'
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import Styles from '../../../../App.module.css'
 import MuiCard from './MuiCard';
+import { trackPromise } from 'react-promise-tracker';
+import LodingIndecator from '../LodingIndecator';
 
 const useStyles = makeStyles({
     root: {
@@ -13,9 +15,8 @@ const useStyles = makeStyles({
         padding: "10px 15px",
         fontSize: "15px",
         border: "1px solid black",
-        position: "relative",
-        left: "46%",
-        marginLeft: "-50px",
+        display: "flex",
+        margin: "auto",
         fontWeight: "bold"
     },
     notFound: {
@@ -31,56 +32,53 @@ function MainBody(props) {
 
     const [datas, setData] = useState([]);
 
-    const [isCircularShow, setShow] = useState(true);
-
-    const [count, setCount] = useState(12);
+    const [count, setCount] = useState(8);
 
     const onClickHandelar = e => {
         setCount(count * 2);
     }
 
-    let url = "";
-    url = (!searchValue) ? 'http://localhost:8000/' : `http://localhost:8000/getbysearch/:${searchValue}`;
+    // let url = "";
+    // url = (!searchValue) ? 'http://localhost:8000/' : `http://localhost:8000/getbysearch/:${searchValue}`;
+
+    let url = 'https://jsonplaceholder.typicode.com/posts';
 
     useEffect(() => {
-        Axios.get(url)
-            .then((d) => {
-                // console.log(d.data.data)
-                setData(d.data.data);
-            })
-            .then(() => {
-                setShow(false)
-            })
-            .catch(err => console.error(err))
+        trackPromise(
+            Axios.get(url)
+                .then((d) => {
+                    console.log(d.data);
+                    setData(d.data);
+                })
+                .catch(err => console.error(err)))
+    }, [url]);
 
-    }, [datas])
+    return (
+        <Container style={{ maxWidth: "90%", marginTop: "100px" }}>
+            <div className={classes.root}>
+                <p className={Styles.textXl} style={{ margin: "2.25rem 0" }}>{pageTitleName}</p>
+                <LodingIndecator />
+                {
+                    (datas) ?
+                        (
+                            <>
+                                <Grid container spacing={2} style={{ marginBottom: "40px" }}>
+                                    {
+                                        datas.map((data, index) => (<Grid item xs={12} sm={6} md={3} key={index}>
+                                            <MuiCard data={data} />
+                                        </Grid>))
+                                    }
 
-    if (isCircularShow) {
-        return (<CircularProgress />);
-    }
-    if(datas.length >= 1){
-        return (
-            <Container style={{ maxWidth: "90%", marginTop: "100px" }}>
+                                </Grid>
+                                <Button disableElevation className={classes.showMoreBtn} onClick={onClickHandelar}>Show More</Button>
+                            </>
+                        )
+                        : (<h1>Hello</h1>)
+                }
+            </div>
 
-                <div className={classes.root}>
-                    <p className={Styles.textXl} style={{ margin: "2.25rem 0" }}>{pageTitleName}</p>
-                    <Grid container spacing={2} style={{ marginBottom: "40px" }}>
-                        {
-                            datas.map((data, index) => (<Grid item xs={12} sm={6} md={3} key={index}>
-                                <MuiCard data={data} />
-                            </Grid>))
-                        }
-
-                    </Grid>
-                    <Button disableElevation className={classes.showMoreBtn} onClick={onClickHandelar}>Show More</Button>
-                </div>
-
-            </Container>
-        )
-    }
- 
-    return (<h1 className={classes.notFound}>No result found  :/</h1>)
-
+        </Container>
+    )
 }
 
 export default MainBody

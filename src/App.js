@@ -19,18 +19,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-// import './App.css';
-// import { Route, Switch } from 'react-router-dom';
-// import AllPopularChoice from './components/AllPopularChoice';
-// import HomePage from './components/HomePage';
-// import TagSearchPage from './components/TagSearchPage';
-
-//        <Switch>
-//        <Route exact path="/" component={HomePage} />
-//        <Route excat path="/popularchoice" component={AllPopularChoice} />
-//        <Route excat path="/:id" component={TagSearchPage} />
-//        </Switch>
