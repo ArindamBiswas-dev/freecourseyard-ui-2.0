@@ -1,14 +1,13 @@
 import { Button, Container, Grid, makeStyles } from '@material-ui/core'
-import Axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import Styles from '../../../../App.module.css'
 import MuiCard from './MuiCard';
-import { trackPromise } from 'react-promise-tracker';
 import LodingIndecator from '../LodingIndecator';
+import useLoadData from '../Hooks/useLoadData';
 
 const useStyles = makeStyles({
     root: {
-        width: "100%"
+        width: "100%",
     },
     showMoreBtn: {
         backgroundColor: "transparent",
@@ -17,6 +16,7 @@ const useStyles = makeStyles({
         border: "1px solid black",
         display: "flex",
         margin: "auto",
+        marginTop: "30px",
         fontWeight: "bold"
     },
     notFound: {
@@ -28,53 +28,42 @@ const useStyles = makeStyles({
 
 function MainBody(props) {
     const classes = useStyles();
-    const { pageTitleName, searchValue } = props;
 
-    const [datas, setData] = useState([]);
+    const { pageTitleName } = props;
 
-    const [count, setCount] = useState(8);
+    const [pageNumber, setPageNumber] = useState(1);
+
+    const { courses } = useLoadData('getAll', '', pageNumber);
 
     const onClickHandelar = e => {
-        setCount(count * 2);
+        setPageNumber(pageNumber + 1);
     }
 
-    // let url = "";
-    // url = (!searchValue) ? 'http://localhost:8000/' : `http://localhost:8000/getbysearch/:${searchValue}`;
-
-    let url = 'https://jsonplaceholder.typicode.com/posts';
-
     useEffect(() => {
-        trackPromise(
-            Axios.get(url)
-                .then((d) => {
-                    console.log(d.data);
-                    setData(d.data);
-                })
-                .catch(err => console.error(err)))
-    }, [url]);
+        // console.log(`UseEffect at MainBody ${pageNumber} ${courses.length}`);
+    }, [pageNumber]);
 
     return (
-        <Container style={{ maxWidth: "90%", marginTop: "100px" }}>
+        <Container style={{ maxWidth: "90%", marginTop: "100px", height: "100%" }}>
             <div className={classes.root}>
                 <p className={Styles.textXl} style={{ margin: "2.25rem 0" }}>{pageTitleName}</p>
-                <LodingIndecator />
                 {
-                    (datas) ?
+                    (courses) ?
                         (
                             <>
                                 <Grid container spacing={2} style={{ marginBottom: "40px" }}>
                                     {
-                                        datas.map((data, index) => (<Grid item xs={12} sm={6} md={3} key={index}>
+                                        courses.map((data, index) => (<Grid item xs={12} sm={6} md={3} key={index}>
                                             <MuiCard data={data} />
                                         </Grid>))
                                     }
-
                                 </Grid>
-                                <Button disableElevation className={classes.showMoreBtn} onClick={onClickHandelar}>Show More</Button>
                             </>
                         )
-                        : (<h1>Hello</h1>)
+                        : (<h1>No Result Found</h1>)
                 }
+                <LodingIndecator />
+                <Button disableElevation className={classes.showMoreBtn} onClick={onClickHandelar}>Show More</Button>
             </div>
 
         </Container>

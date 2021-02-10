@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         marginTop: "40px",
         position: "relative",
         bottom: "0",
-        height: "100%"
+        height: "100%",
     },
     footerH1: {
         color: "white",

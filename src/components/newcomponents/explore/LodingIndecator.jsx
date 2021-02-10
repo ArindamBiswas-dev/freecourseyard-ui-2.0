@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePromiseTracker } from "react-promise-tracker";
-import { ClimbingBoxLoader } from "react-spinners";
+import { ClimbingBoxLoader, ClockLoader, GridLoader, PropagateLoader, RotateLoader } from "react-spinners";
 
 function LodingIndecator() {
 
@@ -14,10 +14,10 @@ function LodingIndecator() {
                     height: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
                 }}
             >
-                <ClimbingBoxLoader color="#0E27A8" loading={true} size={15} margin={2} />
+                <GridLoader color="#0E27A8" loading={true} size={20} />
             </div>
         )
     );
