@@ -1,9 +1,8 @@
 import { Button, Container, Grid, makeStyles } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Styles from '../../../../App.module.css'
 import MuiCard from './MuiCard';
 import LodingIndecator from '../LodingIndecator';
-import useLoadData from '../Hooks/useLoadData';
 
 const useStyles = makeStyles({
     root: {
@@ -29,19 +28,14 @@ const useStyles = makeStyles({
 function MainBody(props) {
     const classes = useStyles();
 
-    const { pageTitleName } = props;
+    const { pageTitleName, courses, onNextPageReq } = props;
 
     const [pageNumber, setPageNumber] = useState(1);
 
-    const { courses } = useLoadData('getAll', '', pageNumber);
-
-    const onClickHandelar = e => {
+    const onClickHandelar = (e) =>{
         setPageNumber(pageNumber + 1);
+        onNextPageReq(pageNumber);
     }
-
-    useEffect(() => {
-        // console.log(`UseEffect at MainBody ${pageNumber} ${courses.length}`);
-    }, [pageNumber]);
 
     return (
         <Container style={{ maxWidth: "90%", marginTop: "100px", height: "100%" }}>
@@ -60,7 +54,10 @@ function MainBody(props) {
                                 </Grid>
                             </>
                         )
-                        : (<h1>No Result Found</h1>)
+                        : (
+                            
+                            <h1>No Result Found</h1>
+                        )
                 }
                 <LodingIndecator />
                 <Button disableElevation className={classes.showMoreBtn} onClick={onClickHandelar}>Show More</Button>

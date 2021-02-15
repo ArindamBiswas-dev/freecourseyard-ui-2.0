@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -81,7 +81,7 @@ const useStyles = makeStyles({
     }
 })
 
-function MuiAppBar(props) {
+function MuiAppBar({ setSearchValue }) {
     const classes = useStyles();
 
     const [isBlue, setBlue] = useState(false);
@@ -95,20 +95,31 @@ function MuiAppBar(props) {
     }
 
     const toggelDrawer = (open) => (event) => {
-        console.log("clicked")
+        // console.log("clicked")
         setDrawer(open);
+    }
+
+    const onSubmitHandeler = e => {
+
+        console.log(searchValue);
+        setSearchValue(searchValue);
+
+        e.preventDefault();
     }
 
     const onChangeHandelar = e => {
         setsearchValue(e.target.value);
-        props.onChange(e.target.value);
     }
 
-    const onClickNewPageHandeler = (e) => {
-        e.preventDefault();
+    // const onClickNewPageHandeler = (e) => {
+    //     e.preventDefault();
 
-        window.location.href = '/suggestcourse';
-    }
+    //     window.location.href = '/suggestcourse';
+    // }
+
+    useEffect(() => {
+
+    }, [searchValue])
 
     return (
         <div>
@@ -150,8 +161,10 @@ function MuiAppBar(props) {
                     </div>
                     <div style={{ display: "flex", justifyContent: "flex-end", width: "100%", alignItems: "center" }}>
                         <div className={(!isBlue) ? classes.searchInput : classes.searchInput2}>
-                            <input placeholder="Search..." className={classes.inputStyle} onFocus={onFocusHandelar}
-                                onBlur={() => { setBlue(false) }} value={searchValue} onChange={onChangeHandelar} />
+                            <form onSubmit={onSubmitHandeler}>
+                                <input placeholder="Search..." className={classes.inputStyle} onFocus={onFocusHandelar}
+                                    onBlur={() => { setBlue(false) }} value={searchValue} onChange={onChangeHandelar} />
+                            </form>
                         </div>
                         <div>
                             <IconButton aria-label="delete" style={{ padding: "0", color: "#bdbdbd" }}>
