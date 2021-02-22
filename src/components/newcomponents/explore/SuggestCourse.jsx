@@ -1,7 +1,7 @@
 import { Button, makeStyles, Snackbar, TextField } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import Axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiAppBar from './appbarComponent/MuiAppBar';
 import Footer from './footerComponent/Footer';
 
@@ -85,9 +85,23 @@ function SuggestCourse(props) {
         try {
             setBar(true);
             let res = await Axios.post(`http://localhost:8000/addcourse`, valueObj);
+            seterrorObj({
+                etitle: false,
+                einstructor: false,
+                ecourseUrl: false,
+                edescription: false
+            });
+            setvalueObj({
+                title: "",
+                instructor: "",
+                courseUrl: "",
+                description: ""
+            })
+            // console.log(valueObj)
 
         } catch (error) {
-            console.log(error)
+            console.log(`server does not respond`);
+            console.log(error);
         }
     }
 
@@ -103,9 +117,11 @@ function SuggestCourse(props) {
                 etitle: false,
                 einstructor: false,
                 ecourseUrl: false,
-                edescription: false
+                edescription: false,
             });
             sendDataToServer();
+            
+            
 
         } else {
             console.log("error happend...");
@@ -123,42 +139,46 @@ function SuggestCourse(props) {
 
     const handleClose = () => {
         setBar(false);
-      };
+    };
 
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
+    // useEffect(() => {
+        
+    // }, [valueObj])
+
     return (
         <div>
-            <MuiAppBar />
+            <MuiAppBar isHide={true} />
             <p className={classes.heading}>{title} a Course</p>
             <div className={classes.root}>
                 <form onSubmit={onSubmitHandeler}>
                     <div className={classes.textField}>
-                        <TextField id="standard-basic" label="Title of Course" defaultValue=""
+                        <TextField id="standard-basic" label="Title of Course" defaultValue={valueObj.title}
                             error={(errorObj.etitle) ? true : false} helperText={(errorObj.etitle) ? "This field required" : ""}
                             onChange={onChangeHandelar} name="title" />
                     </div>
                     <div className={classes.textField}>
-                        <TextField id="standard-basic" label="Instructor" defaultValue=""
+                        <TextField id="standard-basic" label="Instructor" defaultValue={valueObj.instructor}
                             error={(errorObj.einstructor) ? true : false} helperText={(errorObj.einstructor) ? "This field required" : ""}
                             onChange={onChangeHandelar} name="instructor" />
                     </div>
                     <div className={classes.textField}>
-                        <TextField id="standard-basic" label="Course Url" defaultValue=""
+                        <TextField id="standard-basic" label="Course Url" defaultValue={valueObj.courseUrl}
                             error={(errorObj.ecourseUrl) ? true : false} helperText={(errorObj.ecourseUrl) ? "This field required" : ""}
                             onChange={onChangeHandelar} name="courseUrl" />
                     </div>
                     {(!isAddCourse) ?
                         (<div className={classes.textField}>
-                            <TextField id="standard-basic" label="Description" defaultValue="" multiline
+                            <TextField id="standard-basic" label="Description" defaultValue={valueObj.description} multiline
                                 error={(errorObj.edescription) ? true : false} helperText={(errorObj.edescription) ? "This field required" : ""}
                                 onChange={onChangeHandelar} name="description" />
                         </div>) :
 
                         (<div className={classes.textField}>
-                            <TextField id="standard-basic" label="Image Url" defaultValue="" multiline
+                            <TextField id="standard-basic" label="Image Url" defaultValue={valueObj.description} multiline
                                 error={(errorObj.edescription) ? true : false} helperText={(errorObj.edescription) ? "This field required" : ""}
                                 onChange={onChangeHandelar} name="imageUrl" />
                         </div>)}

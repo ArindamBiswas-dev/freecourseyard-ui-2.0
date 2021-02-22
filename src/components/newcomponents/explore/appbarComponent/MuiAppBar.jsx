@@ -12,6 +12,8 @@ import FlareOutlinedIcon from '@material-ui/icons/FlareOutlined';
 import ControlPointOutlinedIcon from '@material-ui/icons/ControlPointOutlined';
 import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
 import { Link } from "react-router-dom";
+import LogInDialog from './LogInDialog';
+import Dropdown from './Dropdown';
 
 const useStyles = makeStyles({
     root: {
@@ -81,7 +83,7 @@ const useStyles = makeStyles({
     }
 })
 
-function MuiAppBar({ setSearchValue }) {
+function MuiAppBar({ setSearchValue, isHide }) {
     const classes = useStyles();
 
     const [isBlue, setBlue] = useState(false);
@@ -89,6 +91,12 @@ function MuiAppBar({ setSearchValue }) {
     const [isDrawerOpen, setDrawer] = useState(false);
 
     const [searchValue, setsearchValue] = useState("");
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const onFocusHandelar = () => {
         setBlue(true);
@@ -159,20 +167,27 @@ function MuiAppBar({ setSearchValue }) {
                         </Drawer>
                         <p className={Styles.textLg} style={{ position: "relative", bottom: "-11px" }}>FREECOURSEYARD</p>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "flex-end", width: "100%", alignItems: "center" }}>
-                        <div className={(!isBlue) ? classes.searchInput : classes.searchInput2}>
-                            <form onSubmit={onSubmitHandeler}>
-                                <input placeholder="Search..." className={classes.inputStyle} onFocus={onFocusHandelar}
-                                    onBlur={() => { setBlue(false) }} value={searchValue} onChange={onChangeHandelar} />
-                            </form>
+                    {(!isHide) ? (
+                        <div style={{ display: "flex", justifyContent: "flex-end", width: "100%", alignItems: "center" }}>
+                            <div className={(!isBlue) ? classes.searchInput : classes.searchInput2}>
+                                <form onSubmit={onSubmitHandeler}>
+                                    <input placeholder="Search..." className={classes.inputStyle} onFocus={onFocusHandelar}
+                                        onBlur={() => { setBlue(false) }} value={searchValue} onChange={onChangeHandelar} />
+                                </form>
+                            </div>
+                            <div>
+                                <IconButton
+                                    aria-label="delete"
+                                    style={{ padding: "0", color: "#bdbdbd" }}
+                                    onClick={() => setOpen(!open)}>
+                                    <AccountCircleIcon fontSize="large" />
+                                </IconButton>
+                            </div>
                         </div>
-                        <div>
-                            <IconButton aria-label="delete" style={{ padding: "0", color: "#bdbdbd" }}>
-                                <AccountCircleIcon fontSize="large" />
-                            </IconButton>
-                        </div>
-                    </div>
+                        ) : (<> </>)
+                    }
                 </Toolbar>
+                {open && <Dropdown />}
             </AppBar>
         </div>
     )

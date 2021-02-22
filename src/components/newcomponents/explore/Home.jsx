@@ -3,7 +3,6 @@ import MuiAppBar from './appbarComponent/MuiAppBar'
 import MainBody from './BodyComponent/MainBody'
 import Footer from './footerComponent/Footer'
 import useLoadData from './Hooks/useLoadData';
-import LodingIndecator from './LodingIndecator';
 
 function Home() {
 

@@ -1,7 +1,8 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, makeStyles } from '@material-ui/core'
-import React from 'react'
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, makeStyles } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 import Styles from '../../../../App.module.css'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles({
     card: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
             boxShadow: "rgba(0,0,0,0.3) 0px 25px 50px -12px",
             transform: "translateY(-5px)"
         },
-        '& .MuiCardContent-root':{
+        '& .MuiCardContent-root': {
             height: "150px"
         }
     },
@@ -51,6 +52,12 @@ function MuiCard(props) {
 
     const { data } = props;
 
+    const [isFev, setFev] = useState(false);
+
+    useEffect(() =>{
+
+    }, [isFev]);
+
     return (
         <Card className={classes.card} variant="outlined">
             <CardActionArea style={{ backgroundColor: "white" }}>
@@ -70,9 +77,12 @@ function MuiCard(props) {
                     <p className={Styles.textSmall}>{data.title}</p>
                 </CardContent>
             </CardActionArea>
-            <CardActions style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", marginTop: "auto" }}>
-                <Button className={classes.cardBtn} disableElevation  href={data.courseUrl} component="a" target="blank"
-                endIcon={<ArrowForwardIcon style={{ color: "#0B4CF3" }}/>}>
+            <CardActions style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "auto" }}>
+                <IconButton onClick={() => setFev(!isFev)}>
+                    <FavoriteIcon style={{ color: (isFev) ? `blue` : `gray` }} />
+                </IconButton>
+                <Button className={classes.cardBtn} disableElevation href={data.courseUrl} component="a" target="blank"
+                    endIcon={<ArrowForwardIcon style={{ color: "#0B4CF3" }} />}>
                     Preview
                 </Button>
             </CardActions>
