@@ -1,40 +1,50 @@
-import React, { useEffect, useState } from 'react'
-import MuiAppBar from './appbarComponent/MuiAppBar'
-import MainBody from './BodyComponent/MainBody'
-import Footer from './footerComponent/Footer'
-import useLoadData from './Hooks/useLoadData';
+import React, { useEffect, useState } from "react";
+import MuiAppBar from "./appbarComponent/MuiAppBar";
+import MainBody from "./BodyComponent/MainBody";
+import Footer from "./footerComponent/Footer";
+import useLoadData from "./Hooks/useLoadData";
 
 function Home() {
+  const [searchInput, setsearchInput] = useState("");
 
-    const [searchInput, setsearchInput] = useState("test");
+  const [pageNumber, setPageNumber] = useState(0);
 
-    const [pageNumber, setPageNumber] = useState(1);
+  const getNextPage = (number) => {
+    setPageNumber(number);
+  };
 
+  const getSearchValue = (value) => {
+    value = value ? value : "";
+    setsearchInput(value);
+  };
 
-    const getNextPage = (number) => {
-        setPageNumber(number);
-    }
+  let url = (!searchInput)
+    ? `https://freecourseyard-backend.glitch.me/?page=${pageNumber}`
+    : `https://freecourseyard-backend.glitch.me/search/${searchInput}?page=${pageNumber}`;
 
-    const getSearchValue = (value) => {
-        value = (value) ? value : "test";
-        setsearchInput(value);
-    }
+  let { courses } = useLoadData(url, searchInput);
 
-    let url = `http://openlibrary.org/search.json?q=${searchInput}&page=${pageNumber}`
+  useEffect(() => {
+    // console.log(localStorage)
+    // console.log(searchInput)
+  }, [pageNumber]);
 
-    let {courses} = useLoadData(url, searchInput);
+  useEffect(() => {
+    setPageNumber(0);
+  }, [searchInput]);
 
-    useEffect(() => {
-        
-    }, [pageNumber, searchInput]);
-
-    return (
-        <div>
-            <MuiAppBar setSearchValue={getSearchValue}/>
-            <MainBody pageTitleName="Let's find" onNextPageReq={getNextPage} courses={courses}/>
-            <Footer />
-        </div>
-    )
+  return (
+    <div>
+      <MuiAppBar setSearchValue={getSearchValue} />
+      <MainBody
+        pageTitleName="Let's find"
+        onNextPageReq={getNextPage}
+        courses={courses}
+        pageNumber={pageNumber}
+      />
+      <Footer />
+    </div>
+  );
 }
 
-export default Home
+export default Home;
