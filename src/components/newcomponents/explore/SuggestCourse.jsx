@@ -83,7 +83,7 @@ function SuggestCourse(props) {
 
   const sendDataToServer = async () => {
     try {
-      console.log(valueObj);
+      // console.log(valueObj);
       let res = await Axios.post(url, valueObj);
       setBar(true);
       setvalueObj({
@@ -106,7 +106,7 @@ function SuggestCourse(props) {
 
     if (validate()) {
       // send form data
-      console.log("No error found...");
+      // console.log("No error found...");
       seterrorObj({
         etitle: false,
         einstructor: false,

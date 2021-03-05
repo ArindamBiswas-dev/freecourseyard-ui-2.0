@@ -28,9 +28,10 @@ const useStyles = makeStyles({
 function MainBody(props) {
   const classes = useStyles();
 
-  const { pageTitleName, courses, onNextPageReq, pageNumber } = props;
+  const { pageTitleName, courses, onNextPageReq, pageNumber, hideShowMore } = props;
 
   // const [pageNumber, setPageNumber] = useState(0);
+  console.log(courses);
 
   const onClickHandelar = (e) => {
     // setPageNumber(pageNumber + 1);
@@ -54,16 +55,17 @@ function MainBody(props) {
             </Grid>
           </>
         ) : (
-          <h1>No Result Found</h1>
+          // <h1>No Result Found</h1>
+          <></>
         )}
         <LodingIndecator />
-        <Button
+        {!hideShowMore && <Button
           disableElevation
           className={classes.showMoreBtn}
           onClick={onClickHandelar}
         >
           Show More
-        </Button>
+        </Button>}
       </div>
     </Container>
   );

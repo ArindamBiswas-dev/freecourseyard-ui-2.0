@@ -8,10 +8,12 @@ import {
   IconButton,
   makeStyles,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Styles from "../../../../App.module.css";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import { UserContext } from "../../../../App";
+import axios from "axios";
 
 const useStyles = makeStyles({
   card: {
@@ -58,20 +60,50 @@ const useStyles = makeStyles({
 
 function MuiCard(props) {
   const classes = useStyles({});
-
   const { data } = props;
-
   const [isFev, setFev] = useState(false);
+  const user = useContext(UserContext);
+  const onFavoriteClick = async (e) => {
+    if (user.token) {
+      try {
+        await axios.post(
+          `https://freecourseyard-backend.glitch.me/setfavorite`,
+          {
+            token: user.token,
+            courseId: data._id,
+            addToFavorite: !isFev,
+          }
+        );
+        setFev(!isFev);
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      alert("Log In / Sign Up to use this feature");
+    }
+  };
 
-  useEffect(() => {}, [isFev]);
+  useEffect(() => {
+    if (user.token) {
+      async function checkFev() {
+        try {
+          // console.log("within useEffect");
+          let res = await axios.get(
+            `https://freecourseyard-backend.glitch.me/isfavorite?token=${user.token}&courseId=${data._id}`
+          );
+          if (res.data.status === "ok") setFev(true);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      checkFev();
+    }
+  }, [user.token, data._id]);
 
   return (
     <Card className={classes.card} variant="outlined">
       <CardActionArea style={{ backgroundColor: "white" }}>
-        <CardMedia
-          image={data.imageUrl}
-          className={classes.media}
-        />
+        <CardMedia image={data.imageUrl} className={classes.media} />
         <CardContent>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div className={classes.teacherLogoDiv}>
@@ -90,7 +122,7 @@ function MuiCard(props) {
           marginTop: "auto",
         }}
       >
-        <IconButton onClick={() => setFev(!isFev)}>
+        <IconButton onClick={onFavoriteClick}>
           <FavoriteIcon style={{ color: isFev ? `blue` : `gray` }} />
         </IconButton>
         <Button

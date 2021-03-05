@@ -129,7 +129,7 @@ function LogInPage(props) {
         );
         setStatus(res.data.status);
         setOpenSnackBar(true);
-        if (res.data.status === "logIN Successfull") {
+        if (res.data.status === "Login Successfull") {
           localStorage.setItem("token", res.data.token);
           setUser({ token: res.data.token });
           console.log(user.token);

@@ -6,6 +6,7 @@ import SuggestCourse from "./components/newcomponents/explore/SuggestCourse";
 import LogInPage from "./components/newcomponents/explore/LogInPage";
 import React, { useEffect, useState } from "react";
 import LogOut from "./components/newcomponents/explore/LogOut";
+import FavoriteCourses from "./components/newcomponents/explore/FavoriteCourses";
 
 export const UserContext = React.createContext();
 export const SetUserContext = React.createContext();
@@ -15,7 +16,7 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) setUser({token: localStorage.getItem("token")});
-    console.log(user.token);
+    // console.log(user.token);
   }, []);
 
   return (
@@ -42,6 +43,7 @@ function App() {
               render={() => <SuggestCourse addCourse={true} />}
             />
             <Route exact path="/logout" component={LogOut} />
+            <Route exact path="/feavorites" component={FavoriteCourses} />
           </Switch>
         </SetUserContext.Provider>
       </UserContext.Provider>
